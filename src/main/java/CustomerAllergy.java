@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Objects;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class CustomerAllergy {
@@ -46,12 +47,17 @@ public class CustomerAllergy {
     }
 
     public String allergyList() {
-        if (allergens.isEmpty()) {
+        return allergens.isEmpty() ? "no allergens" : allergens.stream()
+                .map(a -> a.name().toLowerCase())
+                .collect(Collectors.joining());
+
+
+     /*   if (allergens.isEmpty()) {
             return "No Allergens";
         }
         return allergens.stream()
                 .map(a -> a.name().toLowerCase())
-                .collect(Collectors.joining());
+                .collect(Collectors.joining());*/
     }
 
 
