@@ -1,11 +1,9 @@
-import java.util.Scanner;
-
 public enum Allergens {
-    GLUTEN,
-    NUTS,
-    SOY,
-    FISH,
-    DAIRY;
+    GLUTEN("(?i)gluten"),
+    NUTS("(?i)nuts"),
+    SOY("(?i)soy"),
+    FISH("(?i)fish"),
+    DAIRY("(?i)dairy");
 
     // make so that allergen excludes specific dishes
     // OR make so that allergens are boolean that get marked on order
