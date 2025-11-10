@@ -1,4 +1,8 @@
 public enum RestaurantCuisine {
+    FRENCH,
+    JAPANESE,
+    AMERICAN,
+    MEDITERRANEAN;
 }
 
 
