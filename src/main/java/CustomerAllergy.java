@@ -2,7 +2,6 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Objects;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class CustomerAllergy {
