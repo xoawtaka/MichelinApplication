@@ -22,16 +22,17 @@ public class MichelinOrder implements Priceable, Readyable {
 
     @Override
     public double getPrice() {
-        return 0;
+        return dishes.stream().mapToDouble(CustomizedDish::getPrice).sum();
     }
 
     @Override
     public boolean ready() {
-        return false;
+        return !dishes.isEmpty();
     }
 
     @Override
     public void getEstimatedTimeMinutes(int time, int ordersize) {
+        double orderUnits = dishes.stream().mapToDouble(custom -> custom.getBaseItem()).sum();
 
     }
 

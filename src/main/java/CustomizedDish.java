@@ -10,7 +10,7 @@ public class CustomizedDish implements Priceable, Customizable {
     public CustomizedDish(MenuItem baseItem) {
         this.baseItem = baseItem;
     }
-    public MenuItem getBaseItem() {
+    public double getBaseItem() {
         return baseItem;
     }
 

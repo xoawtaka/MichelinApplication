@@ -1,24 +1,18 @@
 import java.util.EnumSet;
 import java.util.Objects;
 
-public record MenuItem(String name, String description, CourseCategories category, double basePrice,
-                       EnumSet<Allergens> allergens) implements Priceable {
-    public MenuItem(String name, String description,
-                    CourseCategories category, double basePrice,
-                    EnumSet<Allergens> allergens) {
+public record MenuItem(String name, String description, CourseCategories category, double basePrice, EnumSet<Allergens> allergens) implements Priceable {
 
-        this.name = Objects.requireNonNull(name);
-        this.description = description == null ? "No description—please refer to item image." : description;
-        this.category = Objects.requireNonNull(category);
-        this.basePrice = basePrice;
-        this.allergens = allergens == null
+    public MenuItem {
+        Objects.requireNonNull(name, "Name must be provided");
+        Objects.requireNonNull(category, "Dish category must not be provided");
+        if (basePrice < 0) {
+            throw new IllegalArgumentException("Order price must be greater than 0");
+        }
+        description = description == null ? "" : description;
+        allergens = allergens == null
                 ? EnumSet.noneOf(Allergens.class)
                 : EnumSet.copyOf(allergens);
-    }
-
-    @Override
-    public EnumSet<Allergens> allergens() {
-        return EnumSet.copyOf(allergens);
     }
 
     @Override
@@ -26,6 +20,10 @@ public record MenuItem(String name, String description, CourseCategories categor
         return basePrice;
     }
 
-    // todo: this is the base item BEFORE modifiers
-    // why: final price computed in CustomizedDish
+    public EnumSet<Allergens> allergens() {
+        return EnumSet.copyOf(allergens);
+    }
 }
+
+// todo: this is the base item BEFORE modifiers
+// why: final price computed in CustomizedDish
