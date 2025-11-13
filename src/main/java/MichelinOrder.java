@@ -6,14 +6,18 @@ public class MichelinOrder implements Priceable, Readyable {
     private final Restaurant restaurant;
     private final DeliveryPriorities priority;
      //todo create customizable and dish class
+    private ArrayList<CustomizedDish> dishes = new ArrayList<>();
 
     public MichelinOrder(Restaurant restaurant, DeliveryPriorities priority) {
         this.restaurant = restaurant;
         this.priority = priority;
     }
 
-    public void addDish(String dishes) {
-        this.addDish(dishes);
+    public void addDish(CustomizedDish dish) {
+        dishes.add(dish);
+    }
+    public ArrayList<CustomizedDish> getDishes() {
+        return (ArrayList<CustomizedDish>) List.copyOf(dishes);
     }
 
     @Override
@@ -30,6 +34,10 @@ public class MichelinOrder implements Priceable, Readyable {
     public void getEstimatedTimeMinutes(int time, int ordersize) {
 
     }
+
+//    public void setDishes(ArrayList<CustomizedDish> dishes) {
+//        this.dishes = dishes;
+//    }
 
     // todo list of customized dish and get method of dish
     //public ArrayList?<> getDishes() {
