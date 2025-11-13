@@ -31,8 +31,11 @@ public class MichelinOrder implements Priceable, Readyable {
     }
 
     @Override
-    public void getEstimatedTimeMinutes(int time, int ordersize) {
-        double orderUnits = dishes.stream().mapToDouble(custom -> custom.getBaseItem()).sum();
+    public int getEstimatedTimeMinutes () {
+        double orderUnits = dishes.stream().mapToDouble(custom -> custom.getBaseItem().category().
+                getTimeIndicatorUnit()).sum();
+
+        double minutes = orderUnits ;
 
     }
 

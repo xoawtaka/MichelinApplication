@@ -1,7 +1,7 @@
 public interface Readyable {
     boolean ready();
-
-    void getEstimatedTimeMinutes(int time, int ordersize);
+    int getEstimatedTimeMinutes();
+//    void getEstimatedTimeMinutes(int time, int ordersize);
     // todo: final estimator formula lives in the implementing class using base unit * category units * delivery factor
     // why: keeps interface small and pushes policy to implementation
 }

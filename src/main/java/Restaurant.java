@@ -16,8 +16,8 @@ public abstract class Restaurant {
                     "\nPlease return to home to place an order at your desired restaurant!");
         }
         this.unitMinutes = unitMinutes;
-        // todo: document invariant: unitMinutes > 0
-        // why: estimator relies on positive baseline
+
+        //   invariant –unitMinutes > 0
     }
 
     protected void addToMenu(MenuItem item) {
@@ -29,13 +29,21 @@ public abstract class Restaurant {
         return Collections.unmodifiableList(menu);
     }
 
+    public List<MenuItem> menuOrganizer() {
+        return menu.stream()
+                .sorted(Comparator.comparing(m -> m.category().ordinal()))
+                .toList();
+    }
+
     public Optional<MenuItem> findItem(String itemName) { // an optional instance where possible outcome = no result
-        if (itemName == null || itemName.isBlank()) return Optional.empty();
-        String o = itemName.trim().equalsIgnoreCase("") ? "" : itemName; // todo: remove unused local
-        // why: dead code adds noise
+        if (itemName == null || itemName.isBlank())
+            return Optional.empty();
+        return itemName.trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
+
         return menu.stream()
                 .filter(m -> m.name().equalsIgnoreCase(itemName))
                 .findFirst(); // first element of stream returned
+
         // todo: consider normalizing whitespace/accents before compare
         // why: improves match rate for user input
     }

@@ -2,9 +2,9 @@ public enum CourseCategories {
     DRINKS(0.1),
     APPETIZERS(0.25),
     SALADS(0.25),
-    MAIN_COURSE(1),
-    SIGNATURES(1.25),
     CHEF_SPEC(2),
+    SIGNATURES(1.25),
+    MAIN_COURSE(1),
     DESSERT(1);
 
     private final double timeIndicatorUnit;
