@@ -9,14 +9,12 @@ public enum FluidOz {
 
     FluidOz(int ounces) {
         this.ounces = ounces;
+        // todo: guard that ounces > 0
+        // why: prevents invalid sizes
     }
 
     public int ounces() {
         return ounces;
-    }
-
-    public int toMilliliters() {
-        return (int) Math.round(ounces * 29.5735);
     }
 }
 // 8 oz (shot—expresso, liquor, etc), 12 oz, 16 oz, 20 oz, 24 oz

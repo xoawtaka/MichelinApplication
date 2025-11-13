@@ -11,10 +11,14 @@ public enum CourseCategories {
 
     CourseCategories(double timeIndicatorUnit) {
         this.timeIndicatorUnit = timeIndicatorUnit;
+        // todo: guard that timeIndicatorUnit > 0
+        // why: zero/negative units break time estimation math
     }
     public double getTimeIndicatorUnit() {
         return timeIndicatorUnit;
     }
+    // todo: priceMultiplier if category should affect price
+    // why: keeps pricing logic colocated with category semantics
 }
 
 // ordersize — drinks (0.1), appetizers (0.25), salads (0.25), main course (1), signatures (1.25), chef spec. vip options (2) (subscription requisite), dessert (1)

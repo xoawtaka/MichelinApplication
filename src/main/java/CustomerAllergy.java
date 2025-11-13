@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 public class CustomerAllergy {
 
-    private MenuItem item;
+    private MenuItem item; // todo: confirm menuitem class exists and exposes getDescription()/getAllergens()
+    // why: needed for optional auto-seeding and validation
     private int quantity;
     private EnumSet<Allergens> allergens = EnumSet.noneOf(Allergens.class);
-    // set allergies per order
 
     public CustomerAllergy(MenuItem item, int quantity) {
         this.item = Objects.requireNonNull(item, "Item must not be empty");
@@ -18,6 +18,8 @@ public class CustomerAllergy {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than 0");
         }
+        // todo: optionally merge Allergens.scan(item.getDescription()) into allergens
+        // why: catches implicit allergens from descriptions without manual flags
     }
 
     public MenuItem getItem() { //
@@ -40,7 +42,6 @@ public class CustomerAllergy {
         return allergens;
     }
 
-
     public boolean hasAllergens() {
         return !allergens.isEmpty();
     }
@@ -48,7 +49,7 @@ public class CustomerAllergy {
     public String allergyList() {
         return allergens.isEmpty() ? "no allergens" : allergens.stream()
                 .map(a -> a.name().toLowerCase())
-                .collect(Collectors.joining());
+                .collect(Collectors.joining(", "));
 
 
      /*   if (allergens.isEmpty()) {

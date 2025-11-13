@@ -12,23 +12,23 @@ public enum Allergens { // define allergens enum with synonym tokens per constan
     FISH("fish", "salmon", "tuna", "cod"), // include representative fish
     DAIRY("dairy", "milk", "cheese", "yogurt", "butter", "cream"); // include dairy staples
 
-    private final List<String> tokens; // immutable list of literal tokens for this allergen
-
-    Allergens(String... tokens) { // constructor capturing varargs tokens
-        this.tokens = List.of(tokens); // store as unmodifiable list
-    }
-
-    public List<String> tokens() { // expose tokens for inspection if needed
-        return tokens; // return the token list
-    }
-
     private static final Pattern PATTERN; // precompiled one-pass pattern shared by all constants
 
     static { // static initializer builds the named-group alternation once
         String alternation = Arrays.stream(values()) // stream over all enum constants
                 .map(a -> "(?<" + a.name() + ">" + boundedAlternation(a.tokens) + ")") // build a named group per allergen
                 .collect(Collectors.joining("|")); // join all groups with alternation
-        PATTERN = Pattern.compile("(?iu)(?:" + alternation + ")"); // compile case-insensitive unicode pattern (no stray space)
+        PATTERN = Pattern.compile("(?iu)(?:" + alternation + ")"); // compile case-insensitive unicode pattern
+        // todo: cache common scans (e.g., description -> enumset) if this is called repeatedly
+        // why: avoids recompiling/matching for identical strings across many orders
+    }
+
+    private final List<String> tokens; // immutable list of literal tokens for this allergen
+
+    Allergens(String... tokens) { // constructor capturing varargs tokens
+        this.tokens = List.of(tokens); // store as unmodifiable list
+        // todo: validate tokens not empty
+        // why: prevents building empty groups which can cause unexpected matches
     }
 
     private static String boundedAlternation(List<String> toks) { // build unicode-aware, boundary-guarded alternation
@@ -48,7 +48,11 @@ public enum Allergens { // define allergens enum with synonym tokens per constan
             }
             if (found.size() == values().length) break; // early exit if all allergens found
         }
-        return found; // return detected allergens
+        return found; // returns detected allergens
+    }
+
+    public List<String> tokens() { // expose tokens for inspection if needed
+        return tokens; // return the token list
     }
 
     public boolean in(CharSequence text) { // check whether this specific allergen appears in text
@@ -57,6 +61,6 @@ public enum Allergens { // define allergens enum with synonym tokens per constan
         while (matcher.find()) { // walk the matches
             if (matcher.group(this.name()) != null) return true; // return true if this allergen’s group captured
         }
-        return false; // otherwise not present
+        return false;
     }
-} // end allergens enum
+}
