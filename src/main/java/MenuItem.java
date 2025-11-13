@@ -1,14 +1,8 @@
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Objects;
 
-public class MenuItem implements Priceable {
-    private final String name;
-    private final String description;
-    private final CourseCategories category;
-    private final double basePrice;
-    private final EnumSet<Allergens> allergens;
-
+public record MenuItem(String name, String description, CourseCategories category, double basePrice,
+                       EnumSet<Allergens> allergens) implements Priceable {
     public MenuItem(String name, String description,
                     CourseCategories category, double basePrice,
                     EnumSet<Allergens> allergens) {
@@ -22,13 +16,15 @@ public class MenuItem implements Priceable {
                 : EnumSet.copyOf(allergens);
     }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public CourseCategories getCategory() { return category; }
-    public EnumSet<Allergens> getAllergens() { return EnumSet.copyOf(allergens); }
+    @Override
+    public EnumSet<Allergens> allergens() {
+        return EnumSet.copyOf(allergens);
+    }
 
     @Override
-    public double getPrice() { return basePrice; }
+    public double getPrice() {
+        return basePrice;
+    }
 
     // todo: this is the base item BEFORE modifiers
     // why: final price computed in CustomizedDish

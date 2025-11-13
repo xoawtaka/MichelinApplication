@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -35,7 +34,7 @@ public abstract class Restaurant {
         String o = itemName.trim().equalsIgnoreCase("") ? "" : itemName; // todo: remove unused local
         // why: dead code adds noise
         return menu.stream()
-                .filter(m -> m.getName().equalsIgnoreCase(itemName))
+                .filter(m -> m.name().equalsIgnoreCase(itemName))
                 .findFirst(); // first element of stream returned
         // todo: consider normalizing whitespace/accents before compare
         // why: improves match rate for user input
