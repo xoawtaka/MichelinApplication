@@ -8,7 +8,7 @@ public record MenuItem(String name, String description, CourseCategories categor
                     EnumSet<Allergens> allergens) {
 
         this.name = Objects.requireNonNull(name);
-        this.description = description == null ? "" : description;
+        this.description = description == null ? "No description—please refer to item image." : description;
         this.category = Objects.requireNonNull(category);
         this.basePrice = basePrice;
         this.allergens = allergens == null
