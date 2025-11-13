@@ -43,3 +43,8 @@ public class MichelinOrder implements Priceable, Readyable {
 
     // todo:  print receipt
 
+//@Override
+//public int hashCode() {
+//    //idea taken from id generator in capstone
+//    return ?.toUpperCase().hashCode();
+
