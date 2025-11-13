@@ -10,7 +10,9 @@ public enum Allergens { // define allergens enum with synonym tokens per constan
     NUTS("nut", "nuts", "tree nuts", "peanut", "peanuts", "almond", "walnut", "hazelnut", "pistachio", "cashew"), // include common nut variants
     SOY("soy", "soy milk", "soybean", "soybeans"), // include soy phrase and forms
     FISH("fish", "salmon", "tuna", "cod"), // include representative fish
-    DAIRY("dairy", "milk", "cheese", "yogurt", "butter", "cream"); // include dairy staples
+    DAIRY("dairy", "milk", "cheese", "yogurt", "butter", "cream"), // include dairy staples
+    EGG("egg", "eggs", "yolk", "egg white", "egg whites"),
+    SESAME("sesame", "sesame oil", "sesame seeds");
 
     private static final Pattern PATTERN; // precompiled one-pass pattern shared by all constants
 
