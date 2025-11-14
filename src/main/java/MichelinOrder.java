@@ -5,7 +5,7 @@ public class MichelinOrder implements Priceable, Readyable {
 
     private final Restaurant restaurant;
     private final DeliveryPriorities priority;
-     //todo create customizable and dish class
+    //todo create customizable and dish class
     private ArrayList<CustomizedDish> dishes = new ArrayList<>();
 
     public MichelinOrder(Restaurant restaurant, DeliveryPriorities priority) {
@@ -16,6 +16,7 @@ public class MichelinOrder implements Priceable, Readyable {
     public void addDish(CustomizedDish dish) {
         dishes.add(dish);
     }
+
     public ArrayList<CustomizedDish> getDishes() {
         return (ArrayList<CustomizedDish>) List.copyOf(dishes);
     }
@@ -31,13 +32,26 @@ public class MichelinOrder implements Priceable, Readyable {
     }
 
     @Override
-    public int getEstimatedTimeMinutes () {
+    public int getEstimatedTimeMinutes() {
         double orderUnits = dishes.stream().mapToDouble(custom -> custom.getBaseItem().category().
                 getTimeIndicatorUnit()).sum();
 
-        double minutes = orderUnits ;
+        double minutes = orderUnits
+                * restaurant.unitMinutes()
+                * priority.getTimeDeliveryIndicator();
 
+        return Integer.parseInt(String.valueOf(Math.ceil(minutes)));
+        // same as (int) Math.ceil()
+
+        // estimated time formula i created:
+            // estimatedMinutes =
+            // ceil((sum of category units for every dish)
+            //   * unitMinutes
+            //   * DeliveryIndicators
     }
+}
+
+
 
 //    public void setDishes(ArrayList<CustomizedDish> dishes) {
 //        this.dishes = dishes;
@@ -46,7 +60,7 @@ public class MichelinOrder implements Priceable, Readyable {
     // todo list of customized dish and get method of dish
     //public ArrayList?<> getDishes() {
         // return ArrayList? .copy of dishes
-    }
+
 
 
     // Overrides for order ready, presenting price, if its ready — Order wait time

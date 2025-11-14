@@ -35,11 +35,14 @@ public abstract class Restaurant {
                 .toList();
     }
 
-    public Optional<MenuItem> findItem(String itemName) { // an optional instance where possible outcome = no result
+    public String languageAdapt(String itemName) {
         if (itemName == null || itemName.isBlank())
-            return Optional.empty();
+            return "";
         return itemName.trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
 
+    }
+    public Optional<MenuItem> findItem(String itemName) { // an optional instance where possible outcome = no result
+        String searcher = languageAdapt(itemName);
         return menu.stream()
                 .filter(m -> m.name().equalsIgnoreCase(itemName))
                 .findFirst(); // first element of stream returned
@@ -57,9 +60,12 @@ public abstract class Restaurant {
     }
 
     public RestaurantCuisine cuisine() {
-        return null; // todo: return the field `cuisine`
+        return cuisine; // todo: return the field `cuisine`
         // why: callers expect the actual cuisine value
     }
+
+    public double unitMinutes() {
+        return unitMinutes;
 
     // todo: add protected seedMenu() hook in concrete cuisines
     // why: keeps menu construction in one place per cuisine
