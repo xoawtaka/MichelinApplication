@@ -7,36 +7,12 @@ public class MainMichelinDisplay {
 
     public static void main(String[] args) throws InterruptedException {
 
-        MichelinAppUi.showWelcome();
+    }
 
-        List<Restaurant> cuisines = List.of(
-                new FrenchCuisine(),
-                new JapaneseCuisine(),
-                new AmericanCuisine(),
-                new MediterraneanCuisine()
-        );
+    private static List<Restaurant.CustomerOrder> selectDishes(Restaurant restaurant, List<MenuItem> numberedMenu) {
+    }
 
-        Restaurant restaurant = chooseCuisines(cuisines);
-
-        // user needs to select course by number
-        // choose deliver
-        // totals
-        // receipt
-
-
-
-
-
-
-
-
-        //Restaurant restaurant;
-        List<MenuItem> items = restaurant.menu();
-        MichelinAppUi.showMenuByCategory(items);
-
-
-        int choice = //(int) (input.nextLine().trim());
-        MenuItem selected = items.get(choice - 1);
+    private static List<MenuItem> buildNumberedMenu(List<MenuItem> menu) {
     }
 
     private static Restaurant chooseCuisines(List<Restaurant> cuisines) throws InterruptedException {

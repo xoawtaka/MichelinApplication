@@ -1,3 +1,4 @@
+import java.rmi.NoSuchObjectException;
 import java.util.*;
 import java.util.List;
 
@@ -18,7 +19,11 @@ public abstract class Restaurant {
         this.unitMinutes = unitMinutes;
 
         //   invariant –unitMinutes > 0
+        basicMenu();
     }
+
+
+    protected abstract void basicMenu();
 
     protected void addToMenu(MenuItem item) {
         Objects.requireNonNull(item, "menu item must not be null");
@@ -29,56 +34,44 @@ public abstract class Restaurant {
         return Collections.unmodifiableList(menu);
     }
 
-    public List<MenuItem> menuOrganizer() {
-        return menu.stream()
-                .sorted(Comparator.comparing(m -> m.category().ordinal()))
-                .toList();
-    }
-
-    public String languageAdapt(String itemName) {
-        if (itemName == null || itemName.isBlank())
-            return "";
-        return itemName.trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
-
-    }
-    public Optional<MenuItem> findItem(String itemName) { // an optional instance where possible outcome = no result
-        String searcher = languageAdapt(itemName);
-        return menu.stream()
-                .filter(m -> m.name().equalsIgnoreCase(itemName))
-                .findFirst(); // first element of stream returned
-
-        // todo: consider normalizing whitespace/accents before compare
-        // why: improves match rate for user input
-    }
-
-    // todo: add public accessor for unitMinutes when wiring estimator
-    // why: order estimator should read this baseline from the restaurant
-    // public double unitMinutes() { return unitMinutes; }
-
-    public String getName() {
+    public String name() {
         return name;
     }
 
     public RestaurantCuisine cuisine() {
-        return cuisine; // todo: return the field `cuisine`
-        // why: callers expect the actual cuisine value
+        return cuisine;
     }
 
     public double unitMinutes() {
         return unitMinutes;
-
-    // todo: add protected seedMenu() hook in concrete cuisines
-    // why: keeps menu construction in one place per cuisine
+    }
 
     public record CustomerOrder(MenuItem item, int quantity, EnumSet<Allergens> allergens) {
-        // todo: validate quantity > 0 in canonical constructor if needed
-        // why: prevents illegal order lines
+
+        public CustomerOrder {
+            Objects.requireNonNull(item, "No items in order.");
+            if (allergens.isEmpty()) {
+                allergens = EnumSet.noneOf(Allergens.class);
+            }
+
+            if (quantity <= 0) {
+                throw new IllegalArgumentException("Quantity must be greater than 0");
+            }
+        }
     }
+    //receipt for now =  time estimate, priority, lines, allergy notes.
 
     public record OrderSummary(int estimatedMinutes, DeliveryPriorities delivery, List<CustomerOrder> lines,
                                String allergyNotes) {
-        // todo: add totalPrice if price is part of output
-        // why: summaries typically include time and cost
+
+        public OrderSummary {
+            Objects.requireNonNull(delivery);
+            Objects.requireNonNull(lines);
+
+            if (allergyNotes.isBlank() || allergyNotes.isEmpty()) {
+                allergyNotes = "None";
+            }
+        }
     }
 }
 
