@@ -1,4 +1,7 @@
+import java.io.PrintStream;
 import java.util.List;
+
+import static java.lang.System.out;
 
 public class MichelinAppUi {
 
@@ -6,7 +9,7 @@ public class MichelinAppUi {
     }
 
     public static void showWelcome() {
-        System.out.println("""
+        out.println("""
                 
                 <<<<<<<<<<<<<<>>>>>>>>>>>>>
                   Michelin Star Plaza
@@ -20,7 +23,7 @@ public class MichelinAppUi {
     }
 
     public static void showCuisineSelection(List<Restaurant> cuisines) throws InterruptedException {
-        System.out.println("""
+        out.println("""
                 
                 -----------------------------
                  CHOOSE YOUR DESIRED CUISINE
@@ -30,15 +33,15 @@ public class MichelinAppUi {
         for (int i = 0; i < cuisines.size(); i++) {
 
             Restaurant restaurant = cuisines.get(i);
-            System.out.printf("[%d] %s (%s)%n",
+            out.printf("[%d] %s (%s)%n",
                     i + 1, restaurant.getName(), restaurant.cuisine().name());
         }
 
-        System.out.println("Let's see what Michelin Restaurants are in your area!");
+        out.println("Let's see what Michelin Restaurants are in your area!");
 
-        System.out.println("Loading...");
+        out.println("Loading...");
         Thread.sleep(1500);
-        System.out.println("""
+        out.println("""
                 Great News!!!
                 
                 These are the Michelin restaurants within your area!
@@ -48,7 +51,7 @@ public class MichelinAppUi {
     }
 
     public static void showMenuHeader(Restaurant restaurant) {
-        System.out.println("""
+        out.println("""
                 
                 <<<<<<<<<<>>>>>>>>>
                         MENU
@@ -56,10 +59,24 @@ public class MichelinAppUi {
                 
                 """);
 
-        System.out.printf("Restaurant: %s (%s)%n%n",
+        out.printf("Restaurant: %s (%s)%n%n",
                 restaurant.getName(), restaurant.cuisine().name());
 
     }
+
+    public static void showMenuByCategory(List<MenuItem> items) {
+        out.println("Course Categories:\n");
+
+        for (CourseCategories category:CourseCategories.values()) {
+            out.printf("%s:%n", category.name());
+
+            items.stream().filter(course -> course.category() == category)
+                    .forEach(course -> {
+                        PrintStream System.;out.printf("%s | $%.2f | %s%n", course.name(), course.basePrice(), course.description()
+                    });
+        }
+
+    } // I think I want to make it to users can a let
 
 
 
